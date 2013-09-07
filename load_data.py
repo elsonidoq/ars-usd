@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import json
 from collections import defaultdict
@@ -20,7 +21,8 @@ def load_data(dir):
         data= json.load(open(fname))
 
         for currency, currency_data in data.iteritems():
-            date= parser.parse(currency_data['date']) # deberia estar arriba
+            date= datetime.strptime(currency_data['date'], '%d/%m/%Y') # deberia estar arriba
+            if date >= datetime.now(): import ipdb;ipdb.set_trace()
             for action in 'buy sell'.split():
                 k='%s/%s' % (curr_mappings[currency],action) 
                 d[k][date]= currency_data[action]
